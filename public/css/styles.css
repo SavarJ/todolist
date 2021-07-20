@@ -12,10 +12,16 @@ h1 {
 
 .box {
   max-width: 400px;
-  margin: 50px auto;
   background: white;
   border-radius: 5px;
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+  margin: 35px auto auto;
+}
+
+.box.list {
+  max-height: 400px;
+  overflow-y: scroll;
+  margin-bottom: 20px;
 }
 
 #heading {

@@ -1,26 +1,49 @@
-<%- include("header") -%>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 
-<div class="box" id="heading">
-    <h1><%= title %> </h1>
-</div>
-<div class="box">
-    <% items.forEach((item) => {%>
-    <div class="item">
-        <form action="/delete-item" method="POST">
-            <input type="checkbox" onchange="this.form.submit()" name="checkbox" value="<%=item._id%> ">
-            <input type="hidden" name="isCustom" value="<%=isCustom%>"></input>
-            <button type="hidden" name="list" value="<%=title%>"></button>
-        </form>
-        <p><%= item.name  %></p>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <!-- My Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- FontAwesome Script Link -->
+    <script defer src="https://kit.fontawesome.com/68e357ed07.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="box" id="heading">
+        <h1><%= title %> </h1>
     </div>
+    <div class="box list">
+        <% items.forEach((item) => {%>
+        <div class="item">
+            <form action="/delete-item" method="POST">
+                <input type="checkbox" onchange="this.form.submit()" name="checkbox" value="<%=item._id%>">
+                <input type="hidden" name="list" value="<%=title%>">
+            </form>
+            <p><%= item.name  %></p>
+        </div>
 
-    <% })%>
+        <% })%>
 
-    <form class="item" action="/new-item" method="post">
-        <input type="text" name="newItem" placeholder="New Item" autocomplete="off" required autofocus>
-        <input type="hidden" name="hidden" value="<%=isCustom%>"></input>
-        <button type="submit" name="list" value="<%=title%>">+</button>
-    </form>
-</div>
+        <form class="item" action="/new-item" method="post">
+            <input type="text" name="newItem" placeholder="New Item" autocomplete="off" required autofocus>
+            <button type="submit" name="list" value="<%=title%>">+</button>
+        </form>
+    </div>
+</body>
 
-<%- include ("footer") -%>
+<footer>
+    <p class="last-line">Made with <i class="fas fa-heart" id="heart"></i> by <a id="my"
+            href="https://www.jainsavar.com" target="_blank" rel="noopener noreferrer">Savar Jain</a></p>
+
+</footer>
+
+</html>

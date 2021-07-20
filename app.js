@@ -10,8 +10,6 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// const items = ["Buy Food", "Cook Food", "Eat Food"];
-// const workItems = [];
 const url = "mongodb://localhost:27017/todolistDB";
 mongoose
   .connect(url, {
@@ -19,7 +17,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("Database connected!"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 const itemsSchema = new mongoose.Schema({
   name: String,
@@ -42,6 +40,9 @@ const defaultItems = [
   }),
   new Item({
     name: "<-- Hit this to delete an item",
+  }),
+  new Item({
+    name: "Type anything after / to create a custom list!",
   }),
 ];
 
@@ -66,7 +67,7 @@ app.get("/", (req, res) => {
         });
       } else {
         const day = date.getDate();
-        res.render("list", { title: day, items: items, isCustom: "false" });
+        res.render("list", { title: day, items: items });
       }
     }
   });
@@ -75,11 +76,10 @@ app.get("/", (req, res) => {
 app.post("/new-item", (req, res) => {
   const itemName = req.body.newItem.trim();
   const listName = req.body.list.trim();
-  const isCustom = req.body.hidden.trim();
   const item = new Item({
     name: itemName,
   });
-  if (isCustom === "true") {
+  if (date.getDate() !== listName) {
     List.findOne({ name: listName }, (err, foundList) => {
       if (err) {
         console.log(err);
@@ -105,55 +105,83 @@ app.post("/new-item", (req, res) => {
 
 app.post("/delete-item", (req, res) => {
   const deleteId = req.body.checkbox.toString().trim();
-  const isCustom = req.body.isCustom;
   const title = req.body.list;
-  if (isCustom === "true") {
+  if (date.getDate() !== title) {
     List.findOne({ name: title }, (err, foundList) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
+        let arr = foundList.items;
+        arr = arr.filter((element) => element._id.toString() !== deleteId);
+        foundList.items = arr;
+        foundList.save((err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(
+              "Successfully deleted and saved items from custom list"
+            );
+          }
+          res.redirect("/" + title);
+        });
       }
     });
+  } else {
+    Item.findByIdAndDelete(deleteId, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("Successfully deleted the item from home list");
+      }
+      res.redirect("/");
+    });
   }
-  Item.findByIdAndDelete(deleteId, (err) => {
-    simpleCallback(err, "Successfully deleted the item");
-  });
-  setTimeout(() => {
-    res.redirect("/");
-  }, 50);
 });
 
+function capitalize(str) {
+  return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+}
+
 app.get("/:customListName", (req, res) => {
-  const customListName = req.params.customListName;
+  const customListName = capitalize(req.params.customListName);
 
   List.findOne({ name: customListName }, (err, foundList) => {
     if (err) {
-      console.log(err);
+      console.error(err);
     } else {
       if (foundList == undefined) {
         const list = new List({
           name: customListName,
           items: defaultItems,
         });
-        list.save({}, (err) => {
-          simpleCallback(err, "Successfully saved item from customlist");
-        });
-        setTimeout(() => {
+        list.save((err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log("Successfully saved the default items in the new list");
+          }
           res.redirect("/" + customListName);
-        }, 50);
+        });
+      } else if (foundList.items.length === 0) {
+        foundList.items = defaultItems;
+        foundList.save((err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(
+              "Successfully saved the default items because this custom list has no items"
+            );
+          }
+          res.redirect("/" + customListName);
+        });
       } else {
         res.render("list", {
           title: foundList.name,
           items: foundList.items,
-          isCustom: "true",
         });
       }
     }
   });
-});
-
-app.get("/about", (req, res) => {
-  res.render("about");
 });
 
 app.listen(3000, () => {
