@@ -2,8 +2,6 @@
 
 A full stack and fully responsive Todolist web app that allows users to add and delete items when completed. The user can also create multiple todolists such as Work or Shopping simply by adding the name of the new list after the `/` in the url
 
-<br>
-
 ## **Table of Contents**
 
 - [Deployment](#deployment)
@@ -12,7 +10,7 @@ A full stack and fully responsive Todolist web app that allows users to add and 
 - [Install](#install)
 - [Author(s)](#authors)
 - [License](#license)
-- [Acknowledgements](#acknowledgements)
+- [Acknowledgement](#acknowledgements)
 
 </br>
 
@@ -25,11 +23,11 @@ A full stack and fully responsive Todolist web app that allows users to add and 
 
 <br>
 
-![Search-page](public/images/todolist.png)
+![Main-Todolist](public/images/todolist.png)
 
 <br>
 
-![Weather-page](public/images/shopping-todolist.png)
+![Shopping-Todolist](public/images/shopping-todolist.png)
 
 ## Built With
 
@@ -59,8 +57,6 @@ If the installation was successful, you should be able to run the following comm
     $ npm --version
     6.14.13
 
-</br>
-
 ## Install
 
     $ git clone https://github.com/SavarJ/todolist.git
@@ -70,6 +66,10 @@ If the installation was successful, you should be able to run the following comm
 ### Running the project
 
     $ npm start
+
+### Updating .env
+
+Rename `.env.sample` to `.env` with the appropriate information
 
 ## Author(s)
 
@@ -83,6 +83,6 @@ Copyright (c) 2021 Savar Jain
 
 Licensed under the [MIT License](LICENSE)
 
-## Acknowledgements
+## Acknowledgement
 
 - The Complete 2021 Web Development Bootcamp by Dr. Angela Yu
