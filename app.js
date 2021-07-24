@@ -1,16 +1,19 @@
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const date = require(__dirname + "/date.js");
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT ?? 3000;
 
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const url = "mongodb://localhost:27017/todolistDB";
+const url = process.env.DB_URL;
 mongoose
   .connect(url, {
     useNewUrlParser: true,
@@ -184,6 +187,6 @@ app.get("/:customListName", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Server started on port 3000");
 });
