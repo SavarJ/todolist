@@ -10,7 +10,7 @@ A full stack and fully responsive Todolist web app that allows users to add and 
 - [Install](#install)
 - [Author(s)](#authors)
 - [License](#license)
-- [Acknowledgement](#acknowledgements)
+- [Acknowledgement](#acknowledgement)
 
 </br>
 
