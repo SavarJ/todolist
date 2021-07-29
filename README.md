@@ -62,7 +62,7 @@ If the installation was successful, you should be able to run the following comm
     $ git clone https://github.com/SavarJ/todolist.git
     $ cd todolist
     $ npm install
-    
+
 ### Updating .env
 
 Rename `.env.sample` to `.env` with the appropriate information
@@ -70,7 +70,6 @@ Rename `.env.sample` to `.env` with the appropriate information
 ### Running the project
 
     $ npm start
-
 
 ## Author(s)
 
@@ -86,4 +85,4 @@ Licensed under the [MIT License](LICENSE)
 
 ## Acknowledgement
 
-- Challenge Project of The Complete 2021 Web Development Bootcamp by Dr. Angela Yu
+- Challenge Project of The Complete 2021 Web Development Bootcamp by Dr. Angela Yu with some twists/changes
